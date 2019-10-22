@@ -27,6 +27,22 @@ public class User {
     this(new UserId(UUID.randomUUID().toString()), userName, name);
   }
 
+  public UserId getId() {
+    return id;
+  }
+
+  public UserName getUserName() {
+    return userName;
+  }
+
+  public FullName getName() {
+    return name;
+  }
+
+  public void changeUserName(UserName userName) {
+    this.userName = Objects.requireNonNull(userName);
+  }
+
   public void changeName(FullName newName) {
     this.name = Objects.requireNonNull(newName);
   }
