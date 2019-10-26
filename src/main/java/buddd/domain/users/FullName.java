@@ -2,7 +2,11 @@ package buddd.domain.users;
 
 import java.util.Objects;
 
-/** 値オブジェクトのルール - 状態を不変に保つ - 同じ値オブジェクト同士で値が等しいかどうかの確認ができる - 完全に交換可能である */
+/* 値オブジェクトのルール
+ * - 状態を不変に保つ
+ * - 同じ値オブジェクト同士で値が等しいかどうかの確認ができる
+ * - 完全に交換可能である
+ */
 public class FullName {
   private final String firstName;
   private final String familyName;

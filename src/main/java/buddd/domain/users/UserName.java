@@ -2,7 +2,10 @@ package buddd.domain.users;
 
 import java.util.Objects;
 
-/** 値オブジェクトを作るモチベーション - 存在しない値を存在させない - 間違った代入を防ぐ */
+/* 値オブジェクトを作るモチベーション
+ * - 存在しない値を存在させない
+ * - 間違った代入を防ぐ
+ */
 public class UserName {
   private final String name;
 

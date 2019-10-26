@@ -3,10 +3,12 @@ package buddd.domain.users;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * エンティティの特徴 - 可変 - 同じ属性でも区別される - 同一性を持つ
+/* エンティティの特徴
+ * - 可変
+ * - 同じ属性でも区別される
+ * - 同一性を持つ
  *
- * <p>Userオブジェクトは識別子(UserId)を持つ
+ * Userオブジェクトは識別子(UserId)を持つ
  */
 public class User {
   private final UserId id;
