@@ -4,6 +4,8 @@ import buddd.domain.users.User;
 import buddd.domain.users.UserId;
 import buddd.domain.users.UserName;
 import buddd.domain.users.UserRepository;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Repository
+@Profile("dev")
 public class InMemoryUserRepository implements UserRepository {
   private final Map<UserId, User> data = new HashMap<>();
 

@@ -3,17 +3,21 @@ package buddd.domain.application;
 import buddd.domain.application.models.UserModel;
 import buddd.domain.application.models.UserSummaryModel;
 import buddd.domain.users.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class UserApplicationService {
   private final UserRepository userRepository;
   private final UserService userService;
 
-  public UserApplicationService(UserRepository userRepository) {
+  @Autowired
+  public UserApplicationService(UserRepository userRepository, UserService userService) {
     this.userRepository = userRepository;
-    userService = new UserService(userRepository);
+    this.userService = userService;
   }
 
   public void registerUser(String useName, String firstName, String familyName) throws Exception {

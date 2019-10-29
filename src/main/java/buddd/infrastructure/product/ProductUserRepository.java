@@ -1,6 +1,8 @@
 package buddd.infrastructure.product;
 
 import buddd.domain.users.*;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import java.util.List;
 
 import static buddd.infrastructure.product.Config.*;
 
+@Repository
+@Profile("production")
 public class ProductUserRepository implements UserRepository {
   @Override
   public User find(UserId id) {
