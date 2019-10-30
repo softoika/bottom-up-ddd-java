@@ -6,6 +6,8 @@ import buddd.domain.application.models.UserSummaryModel;
 import buddd.webapp.models.UserDetailViewModel;
 import buddd.webapp.models.UserSummaryViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +18,12 @@ public class UserController {
   private final UserApplicationService userService;
 
   @Autowired
-  public UserController(UserApplicationService userService) {
+  UserController(UserApplicationService userService) {
     this.userService = userService;
   }
 
   @GetMapping("/users")
-  public List<UserSummaryViewModel> index() {
+  List<UserSummaryViewModel> index() {
     List<UserSummaryModel> users = userService.getUserList();
     return users.stream()
         .map(x -> new UserSummaryViewModel(x.getId(), x.getUserName()))
@@ -29,35 +31,47 @@ public class UserController {
   }
 
   @PostMapping("/users")
-  public void register(
+  ResponseEntity<Void> register(
       @RequestParam("userName") String userName,
       @RequestParam("firstName") String firstName,
-      @RequestParam("familyName") String familyName)
-      throws Exception {
-    userService.registerUser(userName, firstName, familyName);
+      @RequestParam("familyName") String familyName) {
+    try {
+      userService.registerUser(userName, firstName, familyName);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @DeleteMapping("/users/{userId}")
-  public void delete(@PathVariable("userId") String userId) throws Exception {
-    userService.removeUser(userId);
+  ResponseEntity<Void> delete(@PathVariable("userId") String userId) {
+    try {
+      userService.removeUser(userId);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping("/users/{userId}")
-  public UserDetailViewModel detail(@PathVariable("userId") String userId) {
+  UserDetailViewModel detail(@PathVariable("userId") String userId) {
     UserModel target = userService.getUserInfo(userId);
     return toUserDetailViewModel(target);
   }
 
   @PatchMapping("/users/{userId}")
-  public UserDetailViewModel update(
+  ResponseEntity<UserDetailViewModel> update(
       @PathVariable("userId") String userId,
       @RequestParam("userName") String userName,
       @RequestParam("firstName") String firstName,
-      @RequestParam("familyName") String familyName)
-      throws Exception {
-    userService.changeUserInfo(userId, userName, firstName, familyName);
+      @RequestParam("familyName") String familyName) {
+    try {
+      userService.changeUserInfo(userId, userName, firstName, familyName);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     UserModel target = userService.getUserInfo(userId);
-    return toUserDetailViewModel(target);
+    return new ResponseEntity<>(toUserDetailViewModel(target), HttpStatus.OK);
   }
 
   private UserDetailViewModel toUserDetailViewModel(UserModel target) {
