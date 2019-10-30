@@ -62,7 +62,7 @@ public class UserApplicationService {
   }
 
   public List<UserSummaryModel> getUserList() {
-    var users = userRepository.findAll();
+    List<User> users = userRepository.findAll();
     return users.stream().map(x -> new UserSummaryModel(x)).collect(Collectors.toList());
   }
 }

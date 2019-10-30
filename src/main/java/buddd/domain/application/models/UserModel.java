@@ -1,11 +1,14 @@
 package buddd.domain.application.models;
 
 import buddd.domain.users.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * この例ではドメイン領域の知識が流出しないようにDTO(Data Transfer Object)を用意する
  * DTOを用いるとドメイン領域外部で名前を変更したりするといった操作ができなくなるメリットがある
  */
+@Getter
 public class UserModel {
   private final String id;
   private final String userName;
@@ -15,17 +18,5 @@ public class UserModel {
     id = source.getId().getValue();
     userName = source.getUserName().getValue();
     name = new FullNameModel(source.getName());
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public FullNameModel getName() {
-    return name;
   }
 }

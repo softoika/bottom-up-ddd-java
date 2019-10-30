@@ -1,5 +1,9 @@
 package buddd.domain.users;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+
 import java.util.Objects;
 
 /* 値オブジェクトのルール
@@ -8,40 +12,17 @@ import java.util.Objects;
  * - 完全に交換可能である
  */
 public class FullName {
-  private final String firstName;
-  private final String familyName;
+  @Getter private final String firstName;
+  @Getter private final String familyName;
 
-  public FullName(String firstName, String familyName) {
-    // equals(FullName)のときにNPEになってしまうのでnullチェックを追加
-    this.firstName = Objects.requireNonNull(firstName);
-    this.familyName = Objects.requireNonNull(familyName);
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public String getFamilyName() {
-    return familyName;
+  public FullName(@NonNull String firstName, @NonNull String familyName) {
+    this.firstName = firstName;
+    this.familyName = familyName;
   }
 
   public boolean equals(FullName other) {
     if (Objects.equals(other, null)) return false;
     if (Objects.equals(other, this)) return true;
-    return firstName.equals(other.familyName) && familyName.equals(other.familyName);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (Objects.equals(obj, null)) return false;
-    if (Objects.equals(obj, this)) return true;
-    if (!getClass().equals(obj.getClass())) return false;
-    return equals((FullName) obj);
-  }
-
-  @Override
-  public int hashCode() {
-    return ((firstName != null ? firstName.hashCode() : 0) * 397)
-        ^ (familyName != null ? familyName.hashCode() : 0);
+    return firstName.equals(other.firstName) && familyName.equals(other.familyName);
   }
 }

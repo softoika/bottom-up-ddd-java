@@ -1,5 +1,7 @@
 package buddd.domain.users;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
 /* 値オブジェクトを作るモチベーション
@@ -7,38 +9,21 @@ import java.util.Objects;
  * - 間違った代入を防ぐ
  */
 public class UserName {
-  private final String name;
+  @Getter private final String value;
 
-  public UserName(String name) {
-    if (name == null || name.isEmpty()) {
+  public UserName(String value) {
+    if (value == null || value.isEmpty()) {
       throw new IllegalArgumentException("It cannot be null or empty");
     }
-    if (name.length() > 50) {
+    if (value.length() > 50) {
       throw new IllegalArgumentException("It must be 50 characters or less");
     }
-    this.name = name;
-  }
-
-  public String getValue() {
-    return name;
+    this.value = value;
   }
 
   public boolean equals(UserName other) {
     if (Objects.equals(other, null)) return false;
     if (Objects.equals(other, this)) return true;
-    return name.equals(other.name);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (Objects.equals(obj, null)) return false;
-    if (Objects.equals(obj, this)) return true;
-    if (!getClass().equals(obj.getClass())) return false;
-    return equals((UserName) obj);
-  }
-
-  @Override
-  public int hashCode() {
-    return name != null ? name.hashCode() : 0;
+    return value.equals(other.value);
   }
 }
