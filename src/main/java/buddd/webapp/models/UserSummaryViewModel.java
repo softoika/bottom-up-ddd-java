@@ -1,12 +1,8 @@
 package buddd.webapp.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
 
-@AllArgsConstructor
-@Getter
-@Setter
+@Value
 public class UserSummaryViewModel {
   private String id;
   private String userName;

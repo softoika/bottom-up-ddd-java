@@ -4,9 +4,11 @@ import buddd.domain.application.UserApplicationService;
 import buddd.domain.application.models.UserModel;
 import buddd.domain.application.models.UserSummaryModel;
 import buddd.webapp.models.UserDetailViewModel;
+import buddd.webapp.models.UserEditViewModel;
 import buddd.webapp.models.UserSummaryViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,47 +33,46 @@ public class UserController {
   }
 
   @PostMapping("/users")
-  ResponseEntity<Void> register(
-      @RequestParam("userName") String userName,
-      @RequestParam("firstName") String firstName,
-      @RequestParam("familyName") String familyName) {
+  ResponseEntity<Void> register(@RequestBody UserEditViewModel user) {
     try {
-      userService.registerUser(userName, firstName, familyName);
+      userService.registerUser(user.getUserName(), user.getFirstName(), user.getFamilyName());
+      return new ResponseEntity<>(HttpStatus.CREATED);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
-    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @DeleteMapping("/users/{userId}")
   ResponseEntity<Void> delete(@PathVariable("userId") String userId) {
     try {
       userService.removeUser(userId);
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping("/users/{userId}")
-  UserDetailViewModel detail(@PathVariable("userId") String userId) {
-    UserModel target = userService.getUserInfo(userId);
-    return toUserDetailViewModel(target);
+  ResponseEntity<UserDetailViewModel> detail(@PathVariable("userId") String userId) {
+    try {
+      UserModel target = userService.getUserInfo(userId);
+      return new ResponseEntity<>(toUserDetailViewModel(target), HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
-  @PatchMapping("/users/{userId}")
+  @PutMapping(value = "/users/{userId}")
   ResponseEntity<UserDetailViewModel> update(
-      @PathVariable("userId") String userId,
-      @RequestParam("userName") String userName,
-      @RequestParam("firstName") String firstName,
-      @RequestParam("familyName") String familyName) {
+      @PathVariable("userId") String userId, @RequestBody UserEditViewModel user) {
     try {
-      userService.changeUserInfo(userId, userName, firstName, familyName);
+      userService.changeUserInfo(
+          userId, user.getUserName(), user.getFirstName(), user.getFamilyName());
+      UserModel target = userService.getUserInfo(userId);
+      return new ResponseEntity<>(toUserDetailViewModel(target), HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    UserModel target = userService.getUserInfo(userId);
-    return new ResponseEntity<>(toUserDetailViewModel(target), HttpStatus.OK);
   }
 
   private UserDetailViewModel toUserDetailViewModel(UserModel target) {

@@ -52,11 +52,11 @@ public class UserApplicationService {
     userRepository.remove(target);
   }
 
-  public UserModel getUserInfo(String id) {
+  public UserModel getUserInfo(String id) throws Exception {
     var userId = new UserId(id);
     var target = userRepository.find(userId);
     if (target == null) {
-      return null;
+      throw new Exception("not found. target id:" + id);
     }
     return new UserModel(target);
   }
