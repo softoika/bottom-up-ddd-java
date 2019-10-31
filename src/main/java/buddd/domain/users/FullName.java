@@ -1,6 +1,5 @@
 package buddd.domain.users;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -20,9 +19,19 @@ public class FullName {
     this.familyName = familyName;
   }
 
-  public boolean equals(FullName other) {
-    if (Objects.equals(other, null)) return false;
-    if (Objects.equals(other, this)) return true;
-    return firstName.equals(other.firstName) && familyName.equals(other.familyName);
+  /* equalsとhashCodeはlombokの@EqualsAndHashCodeで代用可能 */
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    FullName fullName = (FullName) o;
+    return firstName.equals(fullName.firstName) &&
+            familyName.equals(fullName.familyName);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(firstName, familyName);
   }
 }

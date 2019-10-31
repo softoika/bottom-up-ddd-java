@@ -40,9 +40,16 @@ public class User {
     this.name = newName;
   }
 
-  public boolean equals(User other) {
-    if (Objects.equals(other, null)) return false;
-    if (Objects.equals(other, this)) return true;
-    return id.equals(other.id);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return id.equals(user.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
   }
 }

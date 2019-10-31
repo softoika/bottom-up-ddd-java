@@ -21,9 +21,16 @@ public class UserName {
     this.value = value;
   }
 
-  public boolean equals(UserName other) {
-    if (Objects.equals(other, null)) return false;
-    if (Objects.equals(other, this)) return true;
-    return value.equals(other.value);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    UserName userName = (UserName) o;
+    return value.equals(userName.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value);
   }
 }

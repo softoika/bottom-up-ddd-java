@@ -1,5 +1,6 @@
 package buddd.domain.users;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -13,9 +14,16 @@ public class UserId {
     this.value = value;
   }
 
-  public boolean equals(UserId other) {
-    if (Objects.equals(other, null)) return false;
-    if (Objects.equals(other, this)) return true;
-    return value.equals(other.value);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    UserId userId = (UserId) o;
+    return value.equals(userId.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value);
   }
 }
