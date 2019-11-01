@@ -32,7 +32,7 @@ public class UserApplicationService {
   public void changeUserInfo(String id, String userName, String firstName, String familyName)
       throws Exception {
     var targetId = new UserId(id);
-    var target = userRepository.find(targetId);
+    User target = userRepository.find(targetId);
     if (target == null) {
       throw new Exception("not found. target id:" + id);
     }
@@ -45,7 +45,7 @@ public class UserApplicationService {
 
   public void removeUser(String id) throws Exception {
     var targetId = new UserId(id);
-    var target = userRepository.find(targetId);
+    User target = userRepository.find(targetId);
     if (target == null) {
       throw new Exception("not found. target id:" + id);
     }
@@ -54,7 +54,7 @@ public class UserApplicationService {
 
   public UserModel getUserInfo(String id) throws Exception {
     var userId = new UserId(id);
-    var target = userRepository.find(userId);
+    User target = userRepository.find(userId);
     if (target == null) {
       throw new Exception("not found. target id:" + id);
     }

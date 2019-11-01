@@ -1,7 +1,6 @@
 package buddd.domain.application.models;
 
 import buddd.domain.users.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**

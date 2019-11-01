@@ -1,6 +1,5 @@
 package buddd.domain.users;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 

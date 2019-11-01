@@ -1,6 +1,7 @@
-package buddd.infrastructure.product;
+package buddd.infrastructure.production;
 
 import buddd.domain.users.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -9,15 +10,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static buddd.infrastructure.product.Config.*;
-
 @Repository
 @Profile("production")
-public class ProductUserRepository implements UserRepository {
+public class DBUserRepository implements UserRepository {
+  private final Config config;
+
+  @Autowired
+  public DBUserRepository(Config config) {
+    this.config = config;
+  }
+
   @Override
   public User find(UserId id) {
     var sql = "SELECT * FROM t_user WHERE id = ?";
-    try (Connection con = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
+    try (Connection con =
+            DriverManager.getConnection(config.getUrl(), config.getUser(), config.getPassword());
         PreparedStatement stmt = con.prepareStatement(sql)) {
       stmt.setString(1, id.getValue());
       ResultSet rs = stmt.executeQuery();
@@ -37,7 +44,8 @@ public class ProductUserRepository implements UserRepository {
   @Override
   public User find(UserName userName) {
     var sql = "SELECT * FROM t_user WHERE username = ?";
-    try (Connection con = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
+    try (Connection con =
+            DriverManager.getConnection(config.getUrl(), config.getUser(), config.getPassword());
         PreparedStatement stmt = con.prepareStatement(sql)) {
       stmt.setString(1, userName.getValue());
       ResultSet rs = stmt.executeQuery();
@@ -57,7 +65,8 @@ public class ProductUserRepository implements UserRepository {
   @Override
   public List<User> findAll() {
     var sql = "SELECT * FROM t_user";
-    try (Connection con = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
+    try (Connection con =
+            DriverManager.getConnection(config.getUrl(), config.getUser(), config.getPassword());
         Statement stmt = con.createStatement()) {
       ResultSet rs = stmt.executeQuery(sql);
       List<User> results = new ArrayList<>();
@@ -71,6 +80,7 @@ public class ProductUserRepository implements UserRepository {
         results.add(user);
       }
       rs.close();
+      return results;
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -79,7 +89,8 @@ public class ProductUserRepository implements UserRepository {
 
   @Override
   public void save(User user) {
-    try (Connection con = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD)) {
+    try (Connection con =
+        DriverManager.getConnection(config.getUrl(), config.getUser(), config.getPassword())) {
       var exists = false;
       var sql = "SELECT * FROM t_user WHERE id = ?";
       try (PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -108,7 +119,8 @@ public class ProductUserRepository implements UserRepository {
   @Override
   public void remove(User user) {
     var sql = "DELETE FROM t_user WHERE id = ?";
-    try (Connection con = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
+    try (Connection con =
+            DriverManager.getConnection(config.getUrl(), config.getUser(), config.getPassword());
         PreparedStatement stmt = con.prepareStatement(sql)) {
       stmt.setString(1, user.getId().getValue());
       stmt.executeUpdate();

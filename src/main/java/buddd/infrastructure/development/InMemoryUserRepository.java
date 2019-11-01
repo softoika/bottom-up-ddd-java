@@ -1,4 +1,4 @@
-package buddd.infrastructure.inmemory;
+package buddd.infrastructure.development;
 
 import buddd.domain.users.User;
 import buddd.domain.users.UserId;
