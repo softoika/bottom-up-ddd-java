@@ -27,11 +27,6 @@ public class User {
     this.name = name;
   }
 
-  /** 生成するときのコンストラクタ (guid(uuid)が設定される) */
-  public User(@NonNull UserName userName, @NonNull FullName name) {
-    this(new UserId(UUID.randomUUID().toString()), userName, name);
-  }
-
   public void changeUserName(@NonNull UserName userName) {
     this.userName = userName;
   }

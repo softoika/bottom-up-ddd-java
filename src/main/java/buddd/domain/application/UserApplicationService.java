@@ -13,15 +13,18 @@ import java.util.stream.Collectors;
 public class UserApplicationService {
   private final UserRepository userRepository;
   private final UserService userService;
+  private final UserFactory userFactory;
 
   @Autowired
-  public UserApplicationService(UserRepository userRepository, UserService userService) {
+  public UserApplicationService(
+      UserRepository userRepository, UserService userService, UserFactory userFactory) {
     this.userRepository = userRepository;
     this.userService = userService;
+    this.userFactory = userFactory;
   }
 
-  public void registerUser(String useName, String firstName, String familyName) throws Exception {
-    var user = new User(new UserName(useName), new FullName(firstName, familyName));
+  public void registerUser(String userName, String firstName, String familyName) throws Exception {
+    var user = userFactory.createUser(new UserName(userName), new FullName(firstName, familyName));
     if (userService.isDuplicated(user)) {
       throw new Exception("重複しています");
     } else {
