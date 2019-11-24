@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/softoika/bottom-up-ddd-java/workflows/Java%20CI/badge.svg)](https://github.com/oftoika/bottom-up-ddd-java/actions)
+[![Actions Status](https://github.com/softoika/bottom-up-ddd-java/workflows/Java%20CI/badge.svg)](https://github.com/softoika/bottom-up-ddd-java/actions?query=workflow%3A%22Java+CI%22)
 # bottom-up-ddd-java
 https://github.com/nrslib/BottomUpDDD のJava実装  
 MVCフレームワーク部分のViewは作っていなくてControllerをREST APIにしています。動作はcurlなどで確認してください
